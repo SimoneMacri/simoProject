@@ -53,6 +53,7 @@ public class SuperList {
         //System.out.println(indexOf(list, "Pane"));
 
         addArticle(list, "Vino");
+        addArticle(list, "Acqua");
 
     }
 
