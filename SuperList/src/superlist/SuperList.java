@@ -26,7 +26,7 @@ public class SuperList {
                 return i;
             }
         }
-        return -10;
+        return -1;
     }
 
     /**
