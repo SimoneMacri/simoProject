@@ -7,7 +7,7 @@ package superlist;
 
 /**
  *
- * @author Davide, Gabriele
+ * @author Simone, Arturo, Davide, Tiziano, Hergys, Bogo, Andrea, Loris, Gabriele
  */
 public class SuperList {
 
