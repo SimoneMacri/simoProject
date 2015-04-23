@@ -5,5 +5,5 @@ package superlist;
  * @author simonemacri
  */
 public class Product {
-    public String name;
+    public String cognome;
 }
