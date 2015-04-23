@@ -9,7 +9,7 @@ package superlist;
  *
  * @author simonemacri
  */
-public class Prodotto {
-    public String nome;
+public class Product {
+    public String name;
     
 }
