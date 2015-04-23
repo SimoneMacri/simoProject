@@ -23,7 +23,7 @@ public class SuperList {
 
     /**
      * Ritorna l'indice dell'elemento article all'interno dell'array list. 
-     * Se l'elemento non esiste, ritorna -1.
+     * Se l'elemento non esiste, ritorna -1.  
      *
      * @param list l'array in cui cercare article.
      * @param article la stringa da cercare dentro la lista.

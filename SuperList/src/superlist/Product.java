@@ -6,5 +6,4 @@ package superlist;
  */
 public class Product {
     public String name;
-    
 }
