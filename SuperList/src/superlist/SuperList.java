@@ -29,10 +29,10 @@ public class SuperList {
      * @param article la stringa da cercare dentro la lista.
      * @return l'indice di article dentro list se esiste, altrimenti torna -1.
      */
-    static int indexOf(String[] list, String article) {
+    static int indexOf(Prodotto[] list, String article) {
 
         for (int i = 0; i < list.length; i++) {
-            if (list[i].equalsIgnoreCase(article)) {
+            if (list[i].nome.equalsIgnoreCase(article)) {
                 return i;
             }
         }
@@ -47,13 +47,14 @@ public class SuperList {
      * @param article il nuovo articolo aggiunto all'array
      * @return ritorna la lista aggiornata
      */
-    static String[] addArticle(String[] list, String article) {
-
-        String[] list2 = new String[list.length + 1];
+    static Prodotto[] addArticle(Prodotto[] list, String article) {
+        Prodotto art = new Prodotto();
+        art.nome = article;
+        Prodotto[] list2 = new Prodotto[list.length + 1];
         for (int i = 0; i < list.length; i++) {
             list2[i] = list[i];
         }
-        list2[list2.length - 1] = article;
+        list2[list2.length - 1] = art;
         return list2;
     }
 
@@ -68,9 +69,9 @@ public class SuperList {
      * @throws FileNotFoundException
      *
      */
-    public static String[] loadList(File f) throws IOException {
+    public static Prodotto[] loadList(File f) throws IOException {
 
-        String list[] = new String[0];
+        Prodotto list[] = new Prodotto[0];
         DataInputStream dis = null;
 
         try {
@@ -91,13 +92,13 @@ public class SuperList {
         return list;
     }
 
-    public static void saveList(File file, String[] list) throws IOException, FileNotFoundException {
+    public static void saveList(File file, Prodotto[] list) throws IOException, FileNotFoundException {
         DataOutputStream dos = null;
 
         try {
             dos = new DataOutputStream(new FileOutputStream(file));
             for (int i = 0; i < list.length; i++) {
-                dos.writeUTF(list[i]);
+                dos.writeUTF(list[i].nome);
             }
 
         } finally {
@@ -126,7 +127,7 @@ public class SuperList {
      * richiesti
      */
     public static void parseLine(File f, String line) throws IOException, NoSuchElementException, FileNotFoundException {
-        String[] list = loadList(f);
+        Prodotto[] list = loadList(f);
         Scanner scan = new Scanner(line);
         switch (scan.next()) {
             case "add":
@@ -141,7 +142,7 @@ public class SuperList {
                 printList(list);
                 break;
             case "clear":
-                saveList(f, new String[0]);
+                saveList(f, new Prodotto[0]);
                 break;
             case "help":
                 printHelp();
@@ -175,9 +176,9 @@ public class SuperList {
      *
      * @param list La lista contenente gli elementi da stampare.
      */
-    public static void printList(String[] list) {
+    public static void printList(Prodotto[] list) {
         for (int i = 0; i < list.length; i++) {
-            System.out.println("-> " + list[i]);
+            System.out.println("-> " + list[i].nome);
         }
     }
 
@@ -189,12 +190,12 @@ public class SuperList {
      * @param article
      * @return
      */
-    public static String[] removeArticle(String[] list, String article) {
+    public static Prodotto[] removeArticle(Prodotto[] list, String article) {
         int indexToBeRemoved = indexOf(list, article);
                                            // trovo l'indice di article dentro a list.
         // se esiste (>=0)
         if (indexToBeRemoved >= 0) {            //Controllo se l'elemento da rimuovere esiste.
-            String[] temp = new String[list.length - 1]; //Creo il nuovo array temporaneo
+            Prodotto[] temp = new Prodotto[list.length - 1]; //Creo il nuovo array temporaneo
             int pos = 0;
             for (int i = 0; i < list.length; i++) {     // Lettura arrayList
                 if (indexToBeRemoved != i) {                // Se indexToBeRemoved è diverso da i effettua la copia.
