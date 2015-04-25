@@ -12,18 +12,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
  *
- * @author Simone, Arturo, Davide, Tiziano, Hergys, Bogo, Andrea, Loris, Gabriele
+ * @author Simone, Arturo, Davide, Tiziano, Hergys, Bogo, Andrea, Loris,
+ * Gabriele
  */
 public class SuperList {
 
     /**
-     * Ritorna l'indice dell'elemento article all'interno dell'array list. 
-     * Se l'elemento non esiste, ritorna -1.  
+     * Ritorna l'indice dell'elemento article all'interno dell'array list. Se
+     * l'elemento non esiste, ritorna -1.
      *
      * @param list l'array in cui cercare article.
      * @param article la stringa da cercare dentro la lista.
@@ -48,8 +50,32 @@ public class SuperList {
      * @return ritorna la lista aggiornata
      */
     static Product[] addArticle(Product[] list, String article) {
-        Product art = new Product();
-        art.name = article;
+        Scanner scan = new Scanner(article);
+        int qty;
+        try {
+            qty = scan.nextInt();
+        } catch (InputMismatchException e) {
+            qty = 1;
+        }
+        return addArticle(list, scan.nextLine().trim(), qty);
+    }
+
+    /**
+     * Ritorna la lista aggiornata con il nuovo articolo
+     *
+     * @param list l'array con gli articoli che verranno copiati nel nuovo array
+     * con l'articolo nuovo
+     * @param article il nuovo articolo aggiunto all'array
+     * @param qty la quantità dell prodotto
+     * @return ritorna la lista aggiornata
+     */
+    static Product[] addArticle(Product[] list, String article, int qty) {
+        int indexToAdd = indexOf(list, article);
+        if(indexToAdd>=0){ // nel caso che il prodotto esista gia
+            list[indexToAdd].qty +=qty;
+            return list;
+        }
+        Product art = new Product(article, qty);
         Product[] list2 = new Product[list.length + 1];
         for (int i = 0; i < list.length; i++) {
             list2[i] = list[i];
@@ -76,10 +102,10 @@ public class SuperList {
 
         try {
             dis = new DataInputStream(new FileInputStream(f));
-
             while (dis.available() > 0) {
+                int qty = dis.readInt();
                 String product = dis.readUTF();
-                list = addArticle(list, product);
+                list = addArticle(list, product, qty);
             }
         } catch (FileNotFoundException e) {
 
@@ -98,6 +124,7 @@ public class SuperList {
         try {
             dos = new DataOutputStream(new FileOutputStream(file));
             for (int i = 0; i < list.length; i++) {
+                dos.writeInt(list[i].qty);
                 dos.writeUTF(list[i].name);
             }
 
@@ -178,7 +205,7 @@ public class SuperList {
      */
     public static void printList(Product[] list) {
         for (int i = 0; i < list.length; i++) {
-            System.out.println("-> " + list[i].name);
+            System.out.println("-> " + list[i].toString());
         }
     }
 
@@ -190,21 +217,46 @@ public class SuperList {
      * @param article
      * @return
      */
-    public static Product[] removeArticle(Product[] list, String article) {
+    static Product[] removeArticle(Product[] list, String article) {
+        Scanner scan = new Scanner(article);
+        int qty;
+        try {
+            qty = scan.nextInt();
+        } catch (InputMismatchException e) {
+            qty = 1;
+        }
+        return removeArticle(list, scan.nextLine().trim(), qty);
+    }
+
+    /**
+     * Ritorna una nuova lista contenente i prodotti di list meno il prodotto.
+     * article.
+     *
+     * @param list
+     * @param article
+     * @param qty
+     * @return
+     */
+    public static Product[] removeArticle(Product[] list, String article, int qty) {
         int indexToBeRemoved = indexOf(list, article);
-                                           // trovo l'indice di article dentro a list.
+        // trovo l'indice di article dentro a list.
         // se esiste (>=0)
         if (indexToBeRemoved >= 0) {            //Controllo se l'elemento da rimuovere esiste.
-            Product[] temp = new Product[list.length - 1]; //Creo il nuovo array temporaneo
-            int pos = 0;
-            for (int i = 0; i < list.length; i++) {     // Lettura arrayList
-                if (indexToBeRemoved != i) {                // Se indexToBeRemoved è diverso da i effettua la copia.
-                    temp[pos] = list[i];
-                    pos++;
-                }
 
+            list[indexToBeRemoved].qty -= qty;
+            boolean toBeRemoved = list[indexToBeRemoved].qty <= 0;
+
+            if (toBeRemoved) {
+                Product[] temp = new Product[list.length -1]; //Creo il nuovo array temporaneo
+                int pos = 0;
+                for (int i = 0; i < list.length; i++) {     // Lettura arrayList
+                    if (indexToBeRemoved != i) {                // Se indexToBeRemoved è diverso da i effettua la copia.
+                        temp[pos] = list[i];
+                        pos++;
+                    }
+                }
+                return temp;                               // Ritorna l'Array con l'elemento rimosso.
             }
-            return temp;                               // Ritorna l'Array con l'elemento rimosso.
         }
         return list;                                   // Ritorna l'Array list originale.
     }
@@ -225,6 +277,7 @@ public class SuperList {
                 }
             } while (true);
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Errore nel accesso del file");
         } finally {
             in.close();
@@ -232,4 +285,3 @@ public class SuperList {
     }
 
 }
-

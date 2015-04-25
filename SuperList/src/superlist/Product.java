@@ -7,6 +7,7 @@ package superlist;
 public class Product {
 
     public String name;
+    public int qty;
 
     /**
      * Costruttore vuoto.
@@ -22,10 +23,14 @@ public class Product {
     public Product(String name) {
         this.name = name;
     }
+    public Product(String name, int qty) {
+        this.name = name;
+        this.qty = qty;
+    }
 
     @Override
     public String toString() {
-        return this.name;
+        return qty+" "+this.name;
     }
 
 }
