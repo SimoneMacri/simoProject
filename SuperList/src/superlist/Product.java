@@ -28,6 +28,12 @@ public class Product {
         this.name = name;
         this.qty = qty;
     }
+    
+    public Product(String name, int qty, boolean done) {
+        this.name = name;
+        this.qty = qty;
+        this.done = done;
+    }
 
     public String getName() {
         return name;
