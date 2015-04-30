@@ -24,15 +24,10 @@ public class Product {
     public Product(String name) {
         this.name = name;
     }
+
     public Product(String name, int qty) {
         this.name = name;
         this.qty = qty;
-    }
-    
-    public Product(String name, int qty, boolean done) {
-        this.name = name;
-        this.qty = qty;
-        this.done = done;
     }
 
     public String getName() {
@@ -51,10 +46,17 @@ public class Product {
         this.qty = qty;
     }
 
-    
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     @Override
     public String toString() {
-        return qty+" "+this.name;
+        return qty + " " + this.name;
     }
 
 }
