@@ -35,7 +35,7 @@ public class SuperList {
 
         for (int i = 0; i < list.length; i++) {
             if (list[i].name.equalsIgnoreCase(article)) {
-                return i;
+                return i+1;
             }
         }
         return -1;
