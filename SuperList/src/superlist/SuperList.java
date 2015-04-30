@@ -26,16 +26,19 @@ public class SuperList {
     /**
      * Ritorna l'indice dell'elemento article all'interno dell'array list. Se
      * l'elemento non esiste, ritorna -1.
-     *
+     * Il ciclo si ferma al primo elemento riscontrato nella lista
      * @param list l'array in cui cercare article.
      * @param article la stringa da cercare dentro la lista.
      * @return l'indice di article dentro list se esiste, altrimenti torna -1.
+     * Autori: Bogo, Gamberone, Hergy :)
+     * Data: 30.04.2015
      */
-    static int indexOf(Product[] list, String article) {
-
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].name.equalsIgnoreCase(article)) {
-                return i;
+     
+    static int indexOf(ArrayList<Product> list, String article) {
+            
+        for (int i = 0; i < list.size(); i++) { // percorro tutta la lista
+            if (list.get(i).name.equalsIgnoreCase(article)) { // cerco l'elemento desiderato in 'article'
+                return i; // restituisce l'indice in cui si trova
             }
         }
         return -1;
